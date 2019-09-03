@@ -20,7 +20,7 @@ RUN apk add \
     chmod +x /usr/local/bin/gosu && \
     rm -vrf /var/cache/apk/*
 
-COPY . .
+COPY .docker/ .docker/
 
 RUN chmod +x .docker/entrypoint.sh && \
     mv .docker/entrypoint.sh /usr/local/bin/entrypoint && \
