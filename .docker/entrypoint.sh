@@ -2,12 +2,6 @@
 
 set -e
 
-role=${CONTAINER_ROLE:-app}
-env=${APP_ENV:-production}
-queueTries=${QUEUE_TRIES:-3}
-queueTimeout=${QUEUE_TIMEOUT:-90}
-queueSleepSeconds=${QUEUE_SLEEP_SECONDS:-3}
-
 # Runs application with nginx and FPM and makes some preparations for laravel application
 # folders structure, permissions, etc.
 run_application() {
@@ -25,18 +19,18 @@ run_application() {
   nginx
 }
 
-if [[ "$env" != "local" ]]; then
+if [[ "$APP_ENV" != "local" ]]; then
   echo "Cache application configuration..."
   # Caching everything for laravel in non-production mode
 #  (php artisan config:cache && php artisan view:cache)
 fi
 
-if [[ "$role" == "app" ]]; then
+if [[ "$CONTAINER_ROLE" == "app" ]]; then
   echo "Bootstraping application..."
   # If running app container we'll run nginx and all that stuff
   run_application
 
-elif [[ "$role" == "scheduler" ]]; then
+elif [[ "$CONTAINER_ROLE" == "scheduler" ]]; then
 
   echo "Running scheduler..."
   # If running scheduler container we'll run infinite loop with 60 seconds timeout
@@ -47,17 +41,12 @@ elif [[ "$role" == "scheduler" ]]; then
     sleep 60
   done
 
-elif [[ "$role" == "queue" ]]; then
+elif [[ "$CONTAINER_ROLE" == "queue" ]]; then
 
   echo "Running queue..."
-  # If running queue container, we'll just run artisan queue:work command with settings
-  gosu www-data php artisan queue:work \
-    --verbose \
-    --tries "$queueTries" \
-    --timeout "$queueTimeout" \
-    --sleep "$queueSleepSeconds"
+  supervisord -n -c /etc/supervisord.conf
 
 else
-  echo "No matched action for given container role [$role]"
+  echo "No matched action for given container role [$CONTAINER_ROLE]"
   exit 1
 fi

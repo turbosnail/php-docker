@@ -6,7 +6,7 @@ RUN apk add \
     libjpeg-turbo libjpeg-turbo-dev \
     libzip libzip-dev \
     libxml2 libxml2-dev \
-    nginx && \
+    nginx supervisor && \
     docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
@@ -29,10 +29,20 @@ RUN chmod +x .docker/entrypoint.sh && \
     mv .docker/php/php-fpm.d /usr/local/etc/php-fpm.d && \
     mv -f .docker/php/php-fpm.conf /usr/local/etc/php-fpm.conf && \
     cp -rf .docker/nginx /etc && \
+    mv -f .docker/supervisor /etc/supervisor.d && \
     rm -rf .docker
 
 WORKDIR /home/www-data
 RUN chown -R www-data:www-data ./
 
 USER root
+
+ENV CONTAINER_ROLE app
+ENV APP_ENV production
+ENV QUEUE_TRIES 3
+ENV QUEUE_TIMEOUT 90
+ENV QUEUE_SLEEP_SECONDS 3
+ENV QUEUE_DELAY 0
+ENV ENV_SV_NUM_PROCS 4
+
 ENTRYPOINT [ "entrypoint" ]
