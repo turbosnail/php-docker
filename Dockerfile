@@ -1,4 +1,5 @@
-FROM php:5.6-fpm-alpine
+ARG PHP_VERSION
+FROM php:$PHP_VERSION-fpm-alpine
 
 RUN apk add \
     freetype freetype-dev \
