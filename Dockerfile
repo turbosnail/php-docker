@@ -7,13 +7,13 @@ RUN apk add \
     libjpeg-turbo libjpeg-turbo-dev \
     libzip libzip-dev \
     libxml2 libxml2-dev \
-    nginx supervisor && \
+    nginx && \
     docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
             --with-jpeg-dir=/usr/include && \
-    /usr/local/bin/docker-php-ext-install bcmath gd zip soap mysqli pdo_mysql && \
-    apk del freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev libxml2-dev postgresql-dev && \
+    docker-php-ext-install bcmath gd zip mysqli pdo_mysql && \
+    apk del freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev libxml2-dev && \
     mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     curl -s https://getcomposer.org/installer | php &&\
     mv composer.phar /usr/local/bin/composer && \
@@ -41,7 +41,7 @@ USER root
 ENV CONTAINER_ROLE app
 ENV APP_ENV production
 ENV QUEUE_TRIES 3
-ENV QUEUE_TIMEOUT 90
+ENV QUEUE_TIMEOUT 180
 ENV QUEUE_SLEEP_SECONDS 3
 ENV QUEUE_DELAY 0
 ENV SV_NUM_PROCS 4

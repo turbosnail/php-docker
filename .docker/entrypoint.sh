@@ -44,7 +44,14 @@ elif [[ "$CONTAINER_ROLE" == "scheduler" ]]; then
 elif [[ "$CONTAINER_ROLE" == "queue" ]]; then
 
   echo "Running queue..."
-  supervisord -n -c /etc/supervisord.conf
+  while :
+  do
+    gosu www-data php artisan queue:work --verbose \
+    --tries $QUEUE_TRIES \
+    --timeout $QUEUE_TIMEOUT \
+    --sleep $QUEUE_SLEEP_SECONDS \
+    --delay $QUEUE_DELAY
+  done
 
 else
   echo "No matched action for given container role [$CONTAINER_ROLE]"
