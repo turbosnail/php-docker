@@ -5,6 +5,7 @@ versions=(
 '7.1'
 '7.2'
 '7.3'
+'7.4'
 )
 IMAGE=$1
 for version in ${versions[*]}
@@ -22,5 +23,5 @@ do
   docker push $IMAGE:$TAG
 done
 
-docker tag $IMAGE:7.3-fpm-nginx-alpine $IMAGE:latest
+docker tag $IMAGE:7.4-fpm-nginx-alpine $IMAGE:latest
 docker push $IMAGE:latest
