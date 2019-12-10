@@ -10,9 +10,9 @@ run_application() {
   echo "Check nginx is fine"
   nginx -t
   echo "Run artisan migrations"
-  php artisan migrate --force
+  gosu www-data php artisan migrate --force
   echo "Link artisan storage event if it's been already linked and suppress all errors"
-  php artisan storage:link 2>/dev/null
+  gosu www-data php artisan storage:link 2>/dev/null
   echo "Run FPM"
   php-fpm
   echo "Run NGINX as root process"

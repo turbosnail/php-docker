@@ -14,7 +14,7 @@ RUN apk add \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
             --with-jpeg-dir=/usr/include && \
-    docker-php-ext-install bcmath gd zip mysqli pdo_mysql && \
+    docker-php-ext-install bcmath gd zip mysqli pdo_mysql opcache && \
     apk del freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev libxml2-dev postgresql-dev && \
     mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     curl -s https://getcomposer.org/installer | php &&\
