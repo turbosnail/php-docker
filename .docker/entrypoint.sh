@@ -50,7 +50,8 @@ elif [[ "$CONTAINER_ROLE" == "queue" ]]; then
     --tries $QUEUE_TRIES \
     --timeout $QUEUE_TIMEOUT \
     --sleep $QUEUE_SLEEP_SECONDS \
-    --delay $QUEUE_DELAY
+    --delay $QUEUE_DELAY \
+    --memory $QUEUE_MEMORY
   done
 
 else

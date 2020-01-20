@@ -9,7 +9,7 @@ RUN apk add \
     libjpeg-turbo libjpeg-turbo-dev \
     libzip libzip-dev \
     libxml2 libxml2-dev \
-    nginx && \
+    exim nginx && \
     docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
