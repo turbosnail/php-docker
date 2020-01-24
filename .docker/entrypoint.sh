@@ -46,6 +46,12 @@ elif [[ "$CONTAINER_ROLE" == "queue" ]]; then
   echo "Running queue..."
   while :
   do
+    echo `date` php artisan queue:work --verbose \
+    --tries $QUEUE_TRIES \
+    --timeout $QUEUE_TIMEOUT \
+    --sleep $QUEUE_SLEEP_SECONDS \
+    --delay $QUEUE_DELAY \
+    --memory $QUEUE_MEMORY
     gosu www-data php artisan queue:work --verbose \
     --tries $QUEUE_TRIES \
     --timeout $QUEUE_TIMEOUT \
