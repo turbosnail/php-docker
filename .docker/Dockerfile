@@ -17,10 +17,10 @@ RUN docker-php-ext-configure gd \
             --with-jpeg-dir=/usr/include && \
     docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql && \
     apk del freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev libxml2-dev postgresql-dev
-RUN apk add autoconf g++ make && \
-    pecl install redis && \
-    docker-php-ext-enable redis &&\
-    apk del --purge make libgcc libstdc++ binutils gmp isl libgomp libatomic mpfr4 mpc1 gcc musl-dev libc-dev g++ m4 libbz2 perl autoconf
+RUN apk add autoconf g++ make
+RUN pecl install redis
+RUN docker-php-ext-enable redis
+RUN apk del --purge make libgcc libstdc++ binutils gmp isl libgomp libatomic mpfr4 mpc1 gcc musl-dev libc-dev g++ m4 libbz2 perl autoconf
 
 RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     curl -s https://getcomposer.org/installer | php &&\
