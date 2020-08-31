@@ -15,13 +15,13 @@ do
   docker push $IMAGE:$version-fpm-nginx-alpine
 done
 
-for version in ${versions[*]}
-do
-  echo "build for php-$version"
-  TAG=$version-bitrix-alpine
-  docker build --build-arg PHP_VERSION=$version -t $IMAGE:$TAG -f ./.bitrix/Dockerfile .
-  docker push $IMAGE:$TAG
-done
+#for version in ${versions[*]}
+#do
+#  echo "build for php-$version"
+#  TAG=$version-bitrix-alpine
+#  docker build --build-arg PHP_VERSION=$version -t $IMAGE:$TAG -f ./.bitrix/Dockerfile .
+#  docker push $IMAGE:$TAG
+#done
 
-docker tag $IMAGE:7.4-fpm-nginx-alpine $IMAGE:latest
-docker push $IMAGE:latest
+#docker tag $IMAGE:7.4-fpm-nginx-alpine $IMAGE:latest
+#docker push $IMAGE:latest

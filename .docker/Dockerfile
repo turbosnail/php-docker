@@ -10,14 +10,19 @@ RUN apk add \
     libzip libzip-dev \
     libxml2 libxml2-dev \
     postgresql postgresql-dev \
-    nginx && \
-    docker-php-ext-configure gd \
+    nginx
+RUN docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
             --with-jpeg-dir=/usr/include && \
     docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql && \
-    apk del freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev libxml2-dev postgresql-dev && \
-    mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
+    apk del freetype-dev libpng-dev libjpeg-turbo-dev libzip-dev libxml2-dev postgresql-dev
+RUN apk add autoconf g++ make && \
+    pecl install redis && \
+    docker-php-ext-enable redis &&\
+    apk del --purge make libgcc libstdc++ binutils gmp isl libgomp libatomic mpfr4 mpc1 gcc musl-dev libc-dev g++ m4 libbz2 perl autoconf
+
+RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     curl -s https://getcomposer.org/installer | php &&\
     mv composer.phar /usr/local/bin/composer && \
     curl -ssL https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64 > /usr/local/bin/gosu && \
@@ -25,7 +30,7 @@ RUN apk add \
     rm -vrf /var/cache/apk/* &&\
     chmod +x .docker/entrypoint.sh && \
     mv .docker/entrypoint.sh /usr/local/bin/entrypoint && \
-    chmod -R 777 /var/tmp/nginx && \
+    mkdir /var/tmp/nginx && chmod -R 777 /var/tmp/nginx && \
     rm -rf /usr/local/etc/php-fpm.d && \
     mv .docker/php/php-fpm.d /usr/local/etc/php-fpm.d && \
     mv -f .docker/php/php-fpm.conf /usr/local/etc/php-fpm.conf && \

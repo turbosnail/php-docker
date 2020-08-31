@@ -1,11 +1,68 @@
 stages:
   - build
 
-Build:
+before_script:
+  - docker login -u $DOCKER_IO_USER -p $DOCKER_IO_TOKEN
+
+Build for 5.6:
   stage: build
+  variables:
+    VERSION: 5.6
   script:
     - apk add --no-cache bash
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - ./build.sh $CI_REGISTRY_IMAGE
-  except:
-    - schedules
+    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
+
+Build for 7.0:
+  stage: build
+  variables:
+    VERSION: 7.0
+  script:
+    - apk add --no-cache bash
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
+
+Build for 7.1:
+  stage: build
+  variables:
+    VERSION: 7.1
+  script:
+    - apk add --no-cache bash
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
+
+
+Build for 7.2:
+  stage: build
+  variables:
+    VERSION: 7.2
+  script:
+    - apk add --no-cache bash
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
+
+
+Build for 7.3:
+  stage: build
+  variables:
+    VERSION: 7.3
+  script:
+    - apk add --no-cache bash
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
+
+
+Build for 7.4:
+  stage: build
+  variables:
+    VERSION: 7.4
+  script:
+    - apk add --no-cache bash
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
