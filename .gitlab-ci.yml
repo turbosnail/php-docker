@@ -6,8 +6,8 @@ Build for 5.6:
   variables:
     VERSION: "5.6"
   script:
-    - docker login -u $DOCKER_IO_USER -p $DOCKER_IO_TOKEN
     - apk add --no-cache bash
+    - docker login -u $DOCKER_IO_USER -p $DOCKER_IO_TOKEN
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:$version-fpm-nginx-alpine
