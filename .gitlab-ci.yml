@@ -1,17 +1,6 @@
 stages:
   - build
 
-#Build for 5.6:
-#  stage: build
-#  variables:
-#    VERSION: "5.6"
-#  script:
-#    - apk add --no-cache bash
-#    - docker login -u $DOCKER_IO_LOGIN -p $DOCKER_IO_TOKEN
-#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#    - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
-#    - docker push $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine
-
 Build for 7.0:
   stage: build
   variables:
@@ -21,6 +10,10 @@ Build for 7.0:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine
+    - docker login -u $DOCKER_IO_LOGIN -p $DOCKER_IO_TOKEN
+    - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker push turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker logout
 
 Build for 7.1:
   stage: build
@@ -31,6 +24,10 @@ Build for 7.1:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine
+    - docker login -u $DOCKER_IO_LOGIN -p $DOCKER_IO_TOKEN
+    - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker push turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker logout
 
 
 Build for 7.2:
@@ -42,6 +39,10 @@ Build for 7.2:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine
+    - docker login -u $DOCKER_IO_LOGIN -p $DOCKER_IO_TOKEN
+    - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker push turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker logout
 
 
 Build for 7.3:
@@ -53,6 +54,10 @@ Build for 7.3:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build --build-arg PHP_VERSION=$VERSION -t $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine -f ./.docker/Dockerfile .
     - docker push $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine
+    - docker login -u $DOCKER_IO_LOGIN -p $DOCKER_IO_TOKEN
+    - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker push turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker logout
 
 
 Build for 7.4:
@@ -66,3 +71,9 @@ Build for 7.4:
     - docker push $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine
     - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
+    - docker login -u $DOCKER_IO_LOGIN -p $DOCKER_IO_TOKEN
+    - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker push turbosnail/php:$VERSION-fpm-nginx-alpine
+    - docker tag $CI_REGISTRY_IMAGE:$VERSION-fpm-nginx-alpine turbosnail/php:latest
+    - docker push turbosnail/php:latest
+    - docker logout
