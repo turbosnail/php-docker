@@ -36,6 +36,7 @@ RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     rm -rf /usr/local/etc/php-fpm.d && \
     mv .docker/php/php-fpm.d /usr/local/etc/php-fpm.d && \
     mv -f .docker/php/php-fpm.conf /usr/local/etc/php-fpm.conf && \
+    rm -rf /etc/nginx/conf.d && \
     cp -rf .docker/nginx /etc && \
     rm -rf .docker
 
