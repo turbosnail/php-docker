@@ -31,6 +31,8 @@ RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     chmod +x .docker/entrypoint.sh && \
     mv .docker/entrypoint.sh /usr/local/bin/entrypoint && \
     mkdir -p /var/tmp/nginx && chmod -R 777 /var/tmp/nginx && \
+    mkdir -p /var/lib/nginx/tmp && chown -R www-data:www-data /var/lib/nginx/tmp && \
+    chown www-data:www-data /var/lib/nginx && \
     rm -rf /usr/local/etc/php-fpm.d && \
     mv .docker/php/php-fpm.d /usr/local/etc/php-fpm.d && \
     mv -f .docker/php/php-fpm.conf /usr/local/etc/php-fpm.conf && \
