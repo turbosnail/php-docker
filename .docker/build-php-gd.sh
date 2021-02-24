@@ -1,9 +1,10 @@
 #!/usr/bin/env sh
-set -e
 
 echo "START CONFIGURING php-gd"
 
 VERSION=`echo $PHP_VERSION | grep "^7\.4"`
+
+set -e
 
 apk add libgd zlib-dev \
     freetype freetype-dev \
