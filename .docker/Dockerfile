@@ -2,23 +2,13 @@ ARG PHP_VERSION
 FROM php:$PHP_VERSION-fpm-alpine
 
 COPY .docker/ .docker/
+RUN chmod +x .docker/build-php-gd.sh && .docker/build-php-gd.sh
 
-RUN apk add \
-    freetype freetype-dev \
-    libpng libpng-dev \
-    libjpeg-turbo libjpeg-turbo-dev \
-    libwebp libwebp-dev \
-    libzip libzip-dev \
-    libxml2 libxml2-dev \
-    postgresql postgresql-dev \
+RUN apk add postgresql postgresql-dev \
     autoconf g++ make \
     nginx
 
-RUN docker-php-ext-configure gd \
-            --with-freetype-dir=/usr/include/freetype2 \
-            --with-png-dir=/usr/include \
-            --with-jpeg-dir=/usr/include \
-            --with-webp-dir=/usr/include
+RUN apk add libzip libzip-dev libxml2 libxml2-dev
 
 RUN docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql
 
