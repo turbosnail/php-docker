@@ -7,20 +7,25 @@ RUN apk add \
     freetype freetype-dev \
     libpng libpng-dev \
     libjpeg-turbo libjpeg-turbo-dev \
+    libwebp libwebp-dev \
     libzip libzip-dev \
     libxml2 libxml2-dev \
     postgresql postgresql-dev \
+    autoconf g++ make \
     nginx
+
 RUN docker-php-ext-configure gd \
             --with-freetype-dir=/usr/include/freetype2 \
             --with-png-dir=/usr/include \
-            --with-jpeg-dir=/usr/include && \
-RUN docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql && \
-    apk del libzip-dev libxml2-dev postgresql-dev
-RUN apk add autoconf g++ make
+            --with-jpeg-dir=/usr/include \
+            --with-webp-dir=/usr/include
+
+RUN docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql
+
 RUN pecl install redis
 RUN docker-php-ext-enable redis
-RUN apk del make g++ autoconf
+
+RUN apk del libzip-dev libxml2-dev postgresql-dev make g++ autoconf
 
 RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     curl -s https://getcomposer.org/installer | php &&\
