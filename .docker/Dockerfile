@@ -2,20 +2,19 @@ ARG PHP_VERSION
 FROM php:$PHP_VERSION-fpm-alpine
 
 COPY .docker/ .docker/
+
 RUN chmod +x .docker/build-php-gd.sh && .docker/build-php-gd.sh
 
-RUN apk add postgresql postgresql-dev \
-    autoconf g++ make \
-    nginx
+RUN apk add nginx
 
-RUN apk add libzip libzip-dev libxml2 libxml2-dev
+RUN apk add libzip libzip-dev libxml2 libxml2-dev postgresql postgresql-dev
+RUN docker-php-ext-install bcmath zip mysqli pdo_mysql pgsql pdo_pgsql
+RUN apk del libzip-dev libxml2-dev postgresql-dev
 
-RUN docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql
-
+RUN apk add autoconf g++ make
 RUN pecl install redis
 RUN docker-php-ext-enable redis
-
-RUN apk del libzip-dev libxml2-dev postgresql-dev make g++ autoconf
+RUN apk del make g++ autoconf
 
 RUN mv /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     curl -s https://getcomposer.org/installer | php &&\
