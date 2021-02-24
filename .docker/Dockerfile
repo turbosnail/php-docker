@@ -11,10 +11,10 @@ RUN apk add \
     libxml2 libxml2-dev \
     postgresql postgresql-dev \
     nginx
-#RUN docker-php-ext-configure gd \
-#            --with-freetype-dir=/usr/include/freetype2 \
-#            --with-png-dir=/usr/include \
-#            --with-jpeg-dir=/usr/include && \
+RUN docker-php-ext-configure gd \
+            --with-freetype-dir=/usr/include/freetype2 \
+            --with-png-dir=/usr/include \
+            --with-jpeg-dir=/usr/include && \
 RUN docker-php-ext-install bcmath gd zip mysqli pdo_mysql pgsql pdo_pgsql && \
     apk del libzip-dev libxml2-dev postgresql-dev
 RUN apk add autoconf g++ make
