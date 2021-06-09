@@ -1,6 +1,9 @@
 stages:
   - build
 
+
+image: git.kodix.ru/kodix/build/docker:stable-git
+
 Build for 7.X:
   stage: build
   parallel:
